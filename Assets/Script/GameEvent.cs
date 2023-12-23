@@ -35,6 +35,24 @@ public class GameEvent : MonoBehaviour
         if (onGameOver != null)
             onGameOver();
     }
+
+    public delegate void BoardCompleted();
+    public static event BoardCompleted onBoardCompleted;
+
+    public static void OnBoardCompletedMethod()
+    {
+        if (onBoardCompleted != null)
+            onBoardCompleted();
+    }
+
+    public delegate void CheckBordCompleted();
+    public static event CheckBordCompleted onCheckBordCompleted;
+
+    public static void OncheckBordCompletedMethod()
+    {
+        if (onCheckBordCompleted != null)
+            onCheckBordCompleted();
+    }
 }
 
 

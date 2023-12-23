@@ -14,7 +14,10 @@ public class GridSqure : Selectable, IPointerClickHandler, ISubmitHandler,IPoint
     private bool _hasDefultValue;
     public bool IsSelecter => _isSelected;
 
-   
+    public bool IsCorrectNumberSet()
+    {
+        return _number == _currentNumber;
+    }
     protected override void OnEnable()
     {
         GameEvent.onUpgrateSqureNumber += OnSetNumber;
@@ -46,6 +49,8 @@ public class GridSqure : Selectable, IPointerClickHandler, ISubmitHandler,IPoint
                 color.normalColor = Color.white;
                 this.colors = color;
             }
+            
+            GameEvent.OncheckBordCompletedMethod();
         }
     }
 
@@ -76,6 +81,11 @@ public class GridSqure : Selectable, IPointerClickHandler, ISubmitHandler,IPoint
     public void SetCorretNumber(int number)
     {
         _currentNumber = number;
+    }
+    public void SetCorretNumber()
+    {
+        _number = _currentNumber;
+        DisplayText();
     }
 
     public void setDefultNumber(bool defultNumber)

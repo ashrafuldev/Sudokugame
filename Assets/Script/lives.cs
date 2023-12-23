@@ -10,7 +10,6 @@ public class lives : MonoBehaviour
   
     private int _lives;
     private int _errorNumber;
-    
 
     private void OnEnable()
     {
@@ -25,7 +24,7 @@ public class lives : MonoBehaviour
     void Start()
     {
         _lives = errorImage.Count;
-        //_errorNumber = 0;
+        _errorNumber = 0;
     }
     
     private void WrongNumber()
@@ -35,14 +34,13 @@ public class lives : MonoBehaviour
             errorImage[_errorNumber].SetActive(true);
             _errorNumber++;
            _lives--;
-        
+            print(_lives);
         }
         CheckForGameOver();
     }
 
     private void CheckForGameOver()
     {
-        
         if (_lives <= 0)
         {
             GameEvent.OnGameOverMethod();

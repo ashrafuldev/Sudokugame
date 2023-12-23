@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -15,6 +16,16 @@ public class SudocuGrid : MonoBehaviour
     private List<GameObject> _gridSqures = new List<GameObject>();
     private int _selectGridData = -1;
     private bool _isRow;
+
+    private void OnEnable()
+    {
+        GameEvent.onCheckBordCompleted+= CheckBordCompleted;
+    }
+
+    private void OnDisable()
+    {
+        GameEvent.onCheckBordCompleted-= CheckBordCompleted;
+    }
 
     private void Start()
     {
@@ -40,7 +51,8 @@ public class SudocuGrid : MonoBehaviour
             {
                 _gridSqures.Add(Instantiate(gridSqure) as GameObject);
                 _gridSqures[_gridSqures.Count-1].GetComponent<GridSqure>().SetSqureIndex(squreIndex);
-                _gridSqures[_gridSqures.Count - 1].transform.parent = this.transform; // instantiate this gameObject as a child of the object Holding Script
+               // _gridSqures[_gridSqures.Count - 1].transform.parent = this.transform; // instantiate this gameObject as a child of the object Holding Script
+                _gridSqures[_gridSqures.Count - 1].transform.SetParent(this.transform,false);
                 _gridSqures[_gridSqures.Count - 1].transform.localScale =
                     new Vector3(_squreScale, _squreScale, _squreScale);
                 squreIndex++;
@@ -110,5 +122,28 @@ public class SudocuGrid : MonoBehaviour
             _gridSqures[index].GetComponent<GridSqure>().SetCorretNumber(data.solveData[index]);
             _gridSqures[index].GetComponent<GridSqure>().setDefultNumber(data.unSolveData[index] !=0 && data.unSolveData[index] == data.solveData[index]);
         }
+    }
+
+    private void CheckBordCompleted()
+    {
+        foreach (var squre in _gridSqures)
+        {
+            var comp = squre.GetComponent<GridSqure>();
+            if (comp.IsCorrectNumberSet() == false)
+            {
+                return;
+            }
+        }
+        GameEvent.OnBoardCompletedMethod();
+    }
+
+    public void SolveSudoku()
+    {
+        foreach (var squre in _gridSqures)
+        {
+            var com = squre.GetComponent<GridSqure>();
+            com.SetCorretNumber();
+        }
+        CheckBordCompleted();
     }
 }
