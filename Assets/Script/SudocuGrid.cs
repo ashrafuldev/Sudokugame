@@ -108,6 +108,7 @@ public class SudocuGrid : MonoBehaviour
         var data = SudokuData.Instance.sudocuGame[level][_selectGridData];
 
         SetGridSqureData(data);
+        
         /*foreach (var squre in gridSqures_all)
         {
             squre.GetComponent<GridSqure>().SetNumber(Random.Range(0, 10));

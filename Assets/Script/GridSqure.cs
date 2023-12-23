@@ -1,10 +1,8 @@
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
-using UnityEngine.Events;
 
-public class GridSqure : Selectable, IPointerClickHandler, ISubmitHandler,IPointerUpHandler, IPointerExitHandler
+public class GridSqure : Selectable, IPointerClickHandler, ISubmitHandler
 {
     public GameObject number_text;
     private int _number;
@@ -12,7 +10,7 @@ public class GridSqure : Selectable, IPointerClickHandler, ISubmitHandler,IPoint
     private int _squreIndex = -1;
     private int _currentNumber;
     private bool _hasDefultValue;
-    public bool IsSelecter => _isSelected;
+   // public bool IsSelecter => _isSelected;
 
     public bool IsCorrectNumberSet()
     {

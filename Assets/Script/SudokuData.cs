@@ -1,6 +1,40 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public class SudokuData : MonoBehaviour
+{
+   public static SudokuData Instance;
+
+   public struct SudokuBordData
+   {
+      public int[] unSolveData;
+      public int[] solveData;
+      public SudokuBordData(int[] unSolveData, int[] solveData)
+      {
+         this.unSolveData = unSolveData;
+         this.solveData = solveData;
+      }
+   };
+
+   public Dictionary<string, List<SudokuBordData>> sudocuGame = new Dictionary<string, List<SudokuBordData>>();
+   
+   private void Awake()
+   {
+      if (Instance == null)
+         Instance = this;
+      else 
+         Destroy(this);
+   }
+
+   private void Start()
+   {
+      sudocuGame.Add("EASY",SudocuEasyData.GetData());
+      sudocuGame.Add("MEDIUM",SudocuMediumData.GetData());
+      sudocuGame.Add("HEARD",SudocuHeardData.GetData());
+      sudocuGame.Add("VERY_HEARD",SudocuVeryHeardData.GetData());
+   }
+}
+
 public class SudocuEasyData: MonoBehaviour
 {
    public static List<SudokuData.SudokuBordData> GetData()
@@ -56,39 +90,5 @@ public class SudocuVeryHeardData: MonoBehaviour
          new int[81]{1,7,9,8,4,3,6,2,5,2,5,4,6,1,9,3,8,7,3,8,6,2,7,5,4,1,9,4,6,3,9,2,8,7,5,1,8,2,1,5,3,7,9,6,4,5,9,7,4,6,1,8,3,2,9,4,5,1,8,6,2,7,3,7,1,8,3,9,2,5,4,6,6,3,2,7,5,4,1,9,8,})
       );
       return data;
-   }
-}
-
-public class SudokuData : MonoBehaviour
-{
-   public static SudokuData Instance;
-
-   public struct SudokuBordData
-   {
-      public int[] unSolveData;
-      public int[] solveData;
-      public SudokuBordData(int[] unSolveData, int[] solveData)
-      {
-         this.unSolveData = unSolveData;
-         this.solveData = solveData;
-      }
-   };
-
-   public Dictionary<string, List<SudokuBordData>> sudocuGame = new Dictionary<string, List<SudokuBordData>>();
-   
-   private void Awake()
-   {
-      if (Instance == null)
-         Instance = this;
-      else 
-         Destroy(this);
-   }
-
-   private void Start()
-   {
-      sudocuGame.Add("EASY",SudocuEasyData.GetData());
-      sudocuGame.Add("MEDIUM",SudocuMediumData.GetData());
-      sudocuGame.Add("HEARD",SudocuHeardData.GetData());
-      sudocuGame.Add("VERY_HEARD",SudocuVeryHeardData.GetData());
    }
 }
