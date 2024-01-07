@@ -18,7 +18,7 @@ public class GameSetting : MonoBehaviour
     }
     private void Start()
     {
-        _gameMode = EGameMode.NOT_SET;
+        _gameMode = EGameMode.NotSet;
     }
 
     public void SetGameMode(EGameMode mode)
@@ -39,10 +39,10 @@ public class GameSetting : MonoBehaviour
     {
         switch (_gameMode)
         {
-            case EGameMode.EASY: return "EASY";
-            case EGameMode.MEDIUM: return "MEDIUM";
-            case EGameMode.HEARD: return "HEARD";
-            case EGameMode.VERY_HEARD: return "VERY_HEARD";
+            case EGameMode.Easy: return "EASY";
+            case EGameMode.Medium: return "MEDIUM";
+            case EGameMode.Heard: return "HEARD";
+            case EGameMode.VeryHeard: return "VERY_HEARD";
         }
         Debug.LogError("Error, Game Level is not SET");
         return " ";
@@ -50,11 +50,11 @@ public class GameSetting : MonoBehaviour
 }
 public enum EGameMode
 {
-    NOT_SET,
-    EASY,
-    MEDIUM,
-    HEARD,
-    VERY_HEARD
+    NotSet,
+    Easy,
+    Medium,
+    Heard,
+    VeryHeard
 }
 
 

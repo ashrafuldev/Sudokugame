@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class lives : MonoBehaviour
+public class Lives : MonoBehaviour
 {
     public GameObject gameOverPopUp;
     public List<GameObject> errorImage;

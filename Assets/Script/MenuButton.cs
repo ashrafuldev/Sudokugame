@@ -3,29 +3,29 @@ using UnityEngine.SceneManagement;
 
 public class MenuButton : MonoBehaviour
 {
-    public void LoadScene(string name)
+    public void LoadScene(string names)
     {
-        SceneManager.LoadScene(name);
+        SceneManager.LoadScene(names);
     }
-    public void LoadSceneEasy(string name)
+    public void LoadSceneEasy(string names)
     {
-        GameSetting.Instance.SetGameMode(EGameMode.EASY);
-        SceneManager.LoadScene(name);
+        GameSetting.Instance.SetGameMode(EGameMode.Easy);
+        SceneManager.LoadScene(names);
     } 
-    public void LoadSceneMedium(string name)
+    public void LoadSceneMedium(string names)
     {
-        GameSetting.Instance.SetGameMode(EGameMode.MEDIUM);
-        SceneManager.LoadScene(name);
+        GameSetting.Instance.SetGameMode(EGameMode.Medium);
+        SceneManager.LoadScene(names);
     }
-    public void LoadSceneHeard(string name)
+    public void LoadSceneHeard(string names)
     {
-        GameSetting.Instance.SetGameMode(EGameMode.HEARD);
-        SceneManager.LoadScene(name);
+        GameSetting.Instance.SetGameMode(EGameMode.Heard);
+        SceneManager.LoadScene(names);
     }
-    public void LoadSceneVeryHeard(string name)
+    public void LoadSceneVeryHeard(string names)
     {
-        GameSetting.Instance.SetGameMode(EGameMode.VERY_HEARD);
-        SceneManager.LoadScene(name);
+        GameSetting.Instance.SetGameMode(EGameMode.VeryHeard);
+        SceneManager.LoadScene(names);
     }
 
     public void ActiveObject(GameObject obj)

@@ -1,15 +1,17 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using UnityEngine.Serialization;
 
-public class GridSqure : Selectable, IPointerClickHandler, ISubmitHandler
+public class GridSquare : Selectable, IPointerClickHandler, ISubmitHandler
 {
-    public GameObject number_text;
+    [FormerlySerializedAs("number_text")] public GameObject numberText;
     private int _number;
-    private bool _isSelected = false;
-    private int _squreIndex = -1;
+    private bool _isSelected;
+    private int _squareIndex = -1;
     private int _currentNumber;
-    private bool _hasDefultValue;
+    private bool _hasDefaultValue;
+    
    // public bool IsSelecter => _isSelected;
 
     public bool IsCorrectNumberSet()
@@ -30,7 +32,8 @@ public class GridSqure : Selectable, IPointerClickHandler, ISubmitHandler
     
     private void OnSetNumber(int number)
     {
-        if (_isSelected && _hasDefultValue == false)  
+        
+        if (_isSelected && _hasDefaultValue == false)  
         {
             SetNumber(number);
             if (_number != _currentNumber)
@@ -54,7 +57,7 @@ public class GridSqure : Selectable, IPointerClickHandler, ISubmitHandler
 
     private void OnSqureSelect( int squreIndexed)
     {
-        if (_squreIndex != squreIndexed)
+        if (_squareIndex != squreIndexed)
         {
             _isSelected = false;
         }
@@ -73,36 +76,36 @@ public class GridSqure : Selectable, IPointerClickHandler, ISubmitHandler
     
     public void SetSqureIndex(int index)
     {
-        _squreIndex = index;
+        _squareIndex = index;
     }
 
-    public void SetCorretNumber(int number)
+    public void SetCorrectNumber(int number)
     {
         _currentNumber = number;
     }
-    public void SetCorretNumber()
+    public void SetCorrectNumber()
     {
         _number = _currentNumber;
         DisplayText();
     }
 
-    public void setDefultNumber(bool defultNumber)
+    public void SetDefaultNumber(bool defaultNumber)
     {
-        _hasDefultValue = defultNumber;
+        _hasDefaultValue = defaultNumber;
     }
     public void DisplayText()
     {
         if (_number <= 0)
-            number_text.GetComponent<Text>().text = " ";
+            numberText.GetComponent<Text>().text = " ";
         else
-            number_text.GetComponent<Text>().text = _number.ToString();
+            numberText.GetComponent<Text>().text = _number.ToString();
     }
     
 
     public void OnPointerClick(PointerEventData eventData)
     {
         _isSelected = true;
-        GameEvent.SqureSelectMehtod(_squreIndex);
+        GameEvent.SqureSelectMehtod(_squareIndex);
     }
 
     public void OnSubmit(BaseEventData eventData)

@@ -5,23 +5,17 @@ public class Timer : MonoBehaviour
 {
     public static Timer Instance;
     private Text _textClock;
-    /*private int _hour;
-    private int _minute;
-    private int _secound;*/
     private float _deltaTime;
-    
-   private bool _stopClock ;
+    private bool _stopClock ;
 
    private void OnEnable()
    {
        GameEvent.onGameOver += OnGameOver;
    }
-
    private void OnDisable()
    {
        GameEvent.onGameOver -= OnGameOver;
    }
-
    private void Awake()
    {
        if (Instance == null)
@@ -65,6 +59,4 @@ public class Timer : MonoBehaviour
       {
           return _textClock;
       }
-      
-      
 }
