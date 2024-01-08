@@ -11,8 +11,10 @@ public class GridSquare : Selectable, IPointerClickHandler, ISubmitHandler
     private int _squareIndex = -1;
     private int _currentNumber;
     private bool _hasDefaultValue;
+    private int _receivedNumber = -1;
+   
     
-   // public bool IsSelecter => _isSelected;
+   // public bool IsSelector => _isSelected;
 
     public bool IsCorrectNumberSet()
     {
@@ -20,44 +22,45 @@ public class GridSquare : Selectable, IPointerClickHandler, ISubmitHandler
     }
     protected override void OnEnable()
     {
-        GameEvent.onUpgrateSqureNumber += OnSetNumber;
-        GameEvent.onSqureSelected += OnSqureSelect;
+        GameEvent.onUpgradedSquareNumbers += OnSetNumber;
+        GameEvent.onSquareSelected += OnSquareSelect;
     }
 
     protected override void OnDisable()
     {
-        GameEvent.onUpgrateSqureNumber -= OnSetNumber;
-        GameEvent.onSqureSelected += OnSqureSelect;
+        GameEvent.onUpgradedSquareNumbers -= OnSetNumber;
+        GameEvent.onSquareSelected += OnSquareSelect;
     }
     
     private void OnSetNumber(int number)
     {
-        
-        if (_isSelected && _hasDefaultValue == false)  
+        _receivedNumber = number;
+        SetSelectedNumberColor();
+
+        if (!_isSelected || _hasDefaultValue) return;
+        SetNumber(number);
+        if (_number != _currentNumber)
         {
-            SetNumber(number);
-            if (_number != _currentNumber)
-            {
-                var color = this.colors;
-                color.normalColor = Color.red;
-                this.colors = color;
-                GameEvent.WrongNumberMethod();   // RED Crose image active for live dicrese 
-            }
-            else
-            {
-               // _hasDefultValue = true;
-                var color = this.colors;
-                color.normalColor = Color.white;
-                this.colors = color;
-            }
-            
-            GameEvent.OncheckBordCompletedMethod();
+            var color = this.colors;
+            color.normalColor = Color.red;
+            this.colors = color;
+            GameEvent.WrongNumberMethod();   // RED image active for live decrease
         }
+        else
+        {
+            // _hasDefaultValue = true;
+            var color = this.colors;
+            color.normalColor = Color.white;
+            this.colors = color;
+        }
+        GameEvent.OnCheckBordCompletedMethod();
     }
 
-    private void OnSqureSelect( int squreIndexed)
+    private void OnSquareSelect( int squareIndexed)
     {
-        if (_squareIndex != squreIndexed)
+        _receivedNumber = _squareIndex;
+        SetSelectedNumberColor();
+        if (_squareIndex != squareIndexed)
         {
             _isSelected = false;
         }
@@ -73,8 +76,23 @@ public class GridSquare : Selectable, IPointerClickHandler, ISubmitHandler
         _number = number;
         DisplayText();
     }
+    private void SetSelectedNumberColor()
+    {
+        if (_number == _receivedNumber)
+        {
+            var color = this.colors;
+            color.normalColor = Color.cyan;
+            this.colors = color;
+        }
+        else
+        {
+            var color = this.colors;
+            color.normalColor = Color.white;
+            this.colors = color;   
+        }
+    }
     
-    public void SetSqureIndex(int index)
+    public void SetSquareIndex(int index)
     {
         _squareIndex = index;
     }
@@ -93,26 +111,20 @@ public class GridSquare : Selectable, IPointerClickHandler, ISubmitHandler
     {
         _hasDefaultValue = defaultNumber;
     }
-    public void DisplayText()
+
+    private void DisplayText()
     {
-        if (_number <= 0)
-            numberText.GetComponent<Text>().text = " ";
-        else
-            numberText.GetComponent<Text>().text = _number.ToString();
+        numberText.GetComponent<Text>().text = _number <= 0 ? " " : _number.ToString();
     }
     
-
     public void OnPointerClick(PointerEventData eventData)
     {
         _isSelected = true;
-        GameEvent.SqureSelectMehtod(_squareIndex);
+        GameEvent.SquareSelectedMethod(_squareIndex);
     }
 
     public void OnSubmit(BaseEventData eventData)
     {
        
     }
-    
-    
-   
 }

@@ -8,6 +8,6 @@ public class NumberBtn : Selectable, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        GameEvent.UpdateSqureNumberMethod(value);
+        GameEvent.UpgradedSquareNumberMethod(value);
     }
 }

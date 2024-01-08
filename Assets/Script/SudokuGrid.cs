@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
@@ -13,7 +14,7 @@ public class SudokuGrid : MonoBehaviour
     [FormerlySerializedAs("squreGap")] [SerializeField] private float squareGap;
     [FormerlySerializedAs("gridSqure")] [SerializeField] private GameObject gridSquare;
     
-    private List<GameObject> _gridSquares = new List<GameObject>();
+    private readonly List<GameObject> _gridSquares = new List<GameObject>();
     private int _selectGridData = -1;
     private bool _isRow;
 
@@ -30,30 +31,29 @@ public class SudokuGrid : MonoBehaviour
     private void Start()
     {
         if(gridSquare.GetComponent<GridSquare>() == null)
-            Debug.LogError("this GameObject need to have grid squre script attatch");
+            Debug.LogError("this GameObject need to have grid square script attach");
         CreateGrid();
         SetGridNumber(GameSetting.Instance.GetGameMode());
-        
     }
     private void CreateGrid()
     {
-        SpawanGridSquare();
+        SpawnGridSquare();
         SetSquarePosition();
     }
-    private void SpawanGridSquare()
+    private void SpawnGridSquare()
     {
         // 1,2,3,4,5,6,7,8,9
 
         int squareIndex = 0;
-        for (int row = 0; row < rows; row++)
+        for (var row = 0; row < rows; row++)
         {
             for (int column = 0; column < columns; column++)
             {
                 _gridSquares.Add(Instantiate(gridSquare));
-                _gridSquares[_gridSquares.Count-1].GetComponent<GridSquare>().SetSqureIndex(squareIndex);
-               // _gridSqures[_gridSqures.Count - 1].transform.parent = this.transform; // instantiate this gameObject as a child of the object Holding Script
-                _gridSquares[_gridSquares.Count - 1].transform.SetParent(this.transform,false);
-                _gridSquares[_gridSquares.Count - 1].transform.localScale =
+                _gridSquares[^1].GetComponent<GridSquare>().SetSquareIndex(squareIndex);
+               // _gridSquares[_gridSquares.Count - 1].transform.parent = this.transform; // instantiate this gameObject as a child of the object Holding Script
+                _gridSquares[^1].transform.SetParent(this.transform,false);
+                _gridSquares[^1].transform.localScale =
                     new Vector3(squareScale, squareScale, squareScale);
                 squareIndex++;
             }
@@ -62,17 +62,17 @@ public class SudokuGrid : MonoBehaviour
     private void SetSquarePosition()
     {
         var squareRect = _gridSquares[0].GetComponent<RectTransform>();
-        Vector2 offset = new Vector2(0, 0);
-        Vector2 squareGapNumber= new Vector2(0, 0);
+        var offset = new Vector2(0, 0);
+        var squareGapNumber= new Vector2(0, 0);
         var rect = squareRect.rect;
         var localScale = squareRect.localScale;
         offset.x = rect.width * localScale.x * squareOffset;
         offset.y = rect.height * localScale.y * squareOffset;
 
-        int rowNumber = 0;
-        int columnNumber = 0;
+        var rowNumber = 0;
+        var columnNumber = 0;
 
-        foreach (var squre in _gridSquares)
+        foreach (var square in _gridSquares)
         {
             if (columnNumber + 1 > columns)
             {
@@ -98,7 +98,7 @@ public class SudokuGrid : MonoBehaviour
                 squareGapNumber.y++;
                 posYOffset += squareGap;
             }
-            squre.GetComponent<RectTransform>().anchoredPosition =
+            square.GetComponent<RectTransform>().anchoredPosition =
                 new Vector2(startPosition.x + posXOffset, startPosition.y - posYOffset);
             columnNumber++;
         }
@@ -109,17 +109,17 @@ public class SudokuGrid : MonoBehaviour
         _selectGridData = Random.Range(0, SudokuData.Instance.sudokuGame[level].Count);
         var data = SudokuData.Instance.sudokuGame[level][_selectGridData];
 
-        SetGridSqureData(data);
+        SetGridSquareData(data);
         
-        /*foreach (var squre in gridSqures_all)
+        /*foreach (var square in gridSquares_all)
         {
-            squre.GetComponent<GridSqure>().SetNumber(Random.Range(0, 10));
+            square.GetComponent<GridSquare>().SetNumber(Random.Range(0, 10));
         }*/
     }
 
-    private void SetGridSqureData(SudokuData.SudokuBordData data)
+    private void SetGridSquareData(SudokuData.SudokuBordData data)
     {
-        for (int index = 0; index < _gridSquares.Count; index++)
+        for (var index = 0; index < _gridSquares.Count; index++)
         {
             _gridSquares[index].GetComponent<GridSquare>().SetNumber(data.UnSolveData[index]);
             _gridSquares[index].GetComponent<GridSquare>().SetCorrectNumber(data.SolveData[index]);
@@ -129,13 +129,9 @@ public class SudokuGrid : MonoBehaviour
 
     private void CheckBordCompleted()
     {
-        foreach (var square in _gridSquares)
+        if (_gridSquares.Select(square => square.GetComponent<GridSquare>()).Any(comp => comp.IsCorrectNumberSet() == false))
         {
-            var comp = square.GetComponent<GridSquare>();
-            if (comp.IsCorrectNumberSet() == false)
-            {
-                return;
-            }
+            return;
         }
         GameEvent.OnBoardCompletedMethod();
     }

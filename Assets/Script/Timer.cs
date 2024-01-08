@@ -32,15 +32,15 @@ public class Timer : MonoBehaviour
    }
 
    // Update is called once per frame
-    void Update()
+   private void Update()
     {
         if (_stopClock)
         {
             _deltaTime += Time.deltaTime;
-            TimeSpan span = TimeSpan.FromSeconds(_deltaTime);
-            string hour = LoadingZero(span.Hours);
-            string minute = LoadingZero(span.Minutes);
-            string second = LoadingZero(span.Seconds);
+            var span = TimeSpan.FromSeconds(_deltaTime);
+            var hour = LoadingZero(span.Hours);
+            var minute = LoadingZero(span.Minutes);
+            var second = LoadingZero(span.Seconds);
             _textClock.text = hour + ":" + minute + ":" + second;
         }
     }

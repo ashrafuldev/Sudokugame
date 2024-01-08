@@ -27,12 +27,10 @@ public class MenuButton : MonoBehaviour
         GameSetting.Instance.SetGameMode(EGameMode.VeryHeard);
         SceneManager.LoadScene(names);
     }
-
     public void ActiveObject(GameObject obj)
     {
         obj.SetActive(true);
     }
-
     public void DeActiveObject(GameObject obj)
     {
         obj.SetActive(false);

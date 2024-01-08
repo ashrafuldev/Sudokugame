@@ -11,15 +11,15 @@ public class Lives : MonoBehaviour
 
     private void OnEnable()
     {
-        GameEvent.onWorngNumber += WrongNumber;
+        GameEvent.onWrongNumber += WrongNumber;
     }
 
     private void OnDisable()
     {
-        GameEvent.onWorngNumber -= WrongNumber;
+        GameEvent.onWrongNumber -= WrongNumber;
     }
 
-    void Start()
+    private void Start()
     {
         _lives = errorImage.Count;
         _errorNumber = 0;
@@ -39,11 +39,8 @@ public class Lives : MonoBehaviour
 
     private void CheckForGameOver()
     {
-        if (_lives <= 0)
-        {
-            GameEvent.OnGameOverMethod();
-            gameOverPopUp.SetActive(true);
-        }
+        if (_lives > 0) return;
+        GameEvent.OnGameOverMethod();
+        gameOverPopUp.SetActive(true);
     }
-    
 }

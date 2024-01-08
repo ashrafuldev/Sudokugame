@@ -1,4 +1,5 @@
 
+using System;
 using UnityEngine;
 
 public class GameSetting : MonoBehaviour
@@ -25,16 +26,6 @@ public class GameSetting : MonoBehaviour
     {
         _gameMode = mode;
     }
-
-    /*public void SetGameMode(string mode)
-    {
-        if(mode == "EASY") SetGameMode(EGameMode.EASY);
-        else if(mode == "MEDIUM") SetGameMode(EGameMode.MEDIUM);
-        else if(mode == "HEARD") SetGameMode(EGameMode.HEARD);
-        else if(mode == "VERY_HEARD") SetGameMode(EGameMode.VERY_HEARD);
-        else SetGameMode(EGameMode.NOT_SET);
-    }*/
-
     public string GetGameMode()
     {
         switch (_gameMode)
@@ -43,6 +34,10 @@ public class GameSetting : MonoBehaviour
             case EGameMode.Medium: return "MEDIUM";
             case EGameMode.Heard: return "HEARD";
             case EGameMode.VeryHeard: return "VERY_HEARD";
+            case EGameMode.NotSet:
+                break;
+            default:
+                throw new ArgumentOutOfRangeException();
         }
         Debug.LogError("Error, Game Level is not SET");
         return " ";

@@ -3,36 +3,31 @@ using UnityEngine;
 
 public class GameEvent : MonoBehaviour
 {
-    public delegate void UpgrateSqureNumber(int number);
-    public static event UpgrateSqureNumber onUpgrateSqureNumber;
-    public static void UpdateSqureNumberMethod(int number)
+    public delegate void UpgradedSquareNumbers(int number);
+    public static event UpgradedSquareNumbers onUpgradedSquareNumbers;
+    public static void UpgradedSquareNumberMethod(int number)
     {
-            if (onUpgrateSqureNumber != null)
-                onUpgrateSqureNumber(number);
+        onUpgradedSquareNumbers?.Invoke(number);
     }
 
-    public delegate void SqureSelected(int squreIndex);
-    public static event SqureSelected onSqureSelected;
-    public static void SqureSelectMehtod(int squreindex)
+    public delegate void SquareSelected(int squareIndex);
+    public static event SquareSelected onSquareSelected;
+    public static void SquareSelectedMethod(int squareIndex)
     {
-        if (onSqureSelected != null)
-            onSqureSelected(squreindex);
+        onSquareSelected?.Invoke(squareIndex);
     }
 
     public delegate void WrongNumber();
-    public static event WrongNumber onWorngNumber;
+    public static event WrongNumber onWrongNumber;
     public static void WrongNumberMethod()
     {
-        if (onWorngNumber != null)
-            onWorngNumber();
+        onWrongNumber?.Invoke();
     }
-    
     public delegate void GameOver();
     public static event GameOver onGameOver;
     public static void OnGameOverMethod()
     {
-        if (onGameOver != null)
-            onGameOver();
+        onGameOver?.Invoke();
     }
 
     public delegate void BoardCompleted();
@@ -40,17 +35,15 @@ public class GameEvent : MonoBehaviour
 
     public static void OnBoardCompletedMethod()
     {
-        if (onBoardCompleted != null)
-            onBoardCompleted();
+        onBoardCompleted?.Invoke();
     }
 
     public delegate void CheckBordCompleted();
     public static event CheckBordCompleted onCheckBordCompleted;
 
-    public static void OncheckBordCompletedMethod()
+    public static void OnCheckBordCompletedMethod()
     {
-        if (onCheckBordCompleted != null)
-            onCheckBordCompleted();
+        onCheckBordCompleted?.Invoke();
     }
 }
 
